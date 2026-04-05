@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kallos Style • Discover & Book Beauty Talent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    body { font-family: 'Inter', system_ui, sans-serif; }
+    .logo-font { font-family: 'Playfair Display', sans-serif; }
+    .hero-bg { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+    .neon-accent { color: #facc15; text-shadow: 0 0 20px #facc15; }
+    .card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(250 204 21 / 0.1); }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+
+  <!-- NAVBAR - Minimal & Elegant -->
+  <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-4">
+        <img src="logo.png" alt="Kallos Style" class="h-11 w-auto">
+        <span class="logo-font text-3xl font-bold tracking-tight neon-accent">Kallos</span>
+      </a>
+
+      <div class="flex-1 max-w-xl mx-12">
+        <div class="relative">
+          <input id="search-input" type="text" placeholder="Search stylists, services, or locations..." 
+                 class="w-full bg-zinc-900 border border-zinc-700 focus:border-amber-400 rounded-3xl py-4 px-7 pl-14 text-base placeholder:text-zinc-500 focus:outline-none">
+          <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-zinc-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <button onclick="showLoginModal()" class="px-6 py-3 text-sm font-medium hover:text-amber-300 transition">Log in</button>
+        <button onclick="showCreateAccountModal()" 
+                class="bg-amber-400 hover:bg-amber-300 text-zinc-950 px-8 py-3.5 rounded-3xl font-semibold text-sm tracking-wide">Join as stylist or client</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO - Clean & Impactful -->
+  <header class="hero-bg py-28 text-center">
+    <div class="max-w-3xl mx-auto px-6">
+      <img src="logo.png" alt="Kallos Style" class="h-20 mx-auto mb-8 opacity-90">
+      <h1 class="text-7xl font-bold logo-font tracking-tighter leading-none neon-accent mb-6">
+        Beauty, booked beautifully
+      </h1>
+      <p class="text-2xl text-zinc-400 max-w-lg mx-auto">
+        Connect with independent barbers, salons & nail techs. Custom pages. Real availability. Instant booking.
+      </p>
+      <button onclick="performSearch()" 
+              class="mt-12 bg-white text-zinc-950 px-12 py-5 rounded-3xl text-lg font-semibold hover:scale-105 transition flex items-center gap-3 mx-auto">
+        <i class="fa-solid fa-search"></i> Find your next look
+      </button>
+    </div>
+  </header>
+
+  <!-- FEATURED -->
+  <section class="max-w-screen-2xl mx-auto px-8 py-20">
+    <div class="flex justify-between items-baseline mb-10">
+      <h2 class="text-5xl font-semibold logo-font tracking-tight">Featured talent in Houston</h2>
+      <a href="#" class="text-amber-400 flex items-center gap-2 hover:gap-3 transition">Browse all <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="featured-grid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-zinc-900 border-t border-zinc-800 py-12">
+    <div class="max-w-screen-2xl mx-auto px-8 text-center text-zinc-500 text-sm">
+      © 2026 Kallos Style • Static demo for GitHub • Premium beauty booking platform
+    </div>
+  </footer>
+
+  <!-- Modals (Login & Create Account) - same clean style -->
+  <div id="login-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+    <div class="bg-zinc-900 rounded-3xl p-10 w-full max-w-md">
+      <div class="flex justify-center mb-6"><img src="logo.png" class="h-9"></div>
+      <h3 class="text-3xl font-semibold text-center mb-8">Welcome back</h3>
+      <input id="login-email" type="email" placeholder="Email address" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+      <input id="login-password" type="password" placeholder="Password" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-8">
+      <button onclick="fakeLogin()" class="w-full bg-amber-400 text-zinc-950 py-4 rounded-3xl font-semibold">Log in</button>
+      <p onclick="hideLoginModal()" class="text-center mt-6 text-zinc-400 cursor-pointer hover:text-white">Cancel</p>
+    </div>
+  </div>
+
+  <div id="create-account-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+    <div class="bg-zinc-900 rounded-3xl p-10 w-full max-w-md">
+      <div class="flex justify-center mb-6"><img src="logo.png" class="h-9"></div>
+      <h3 class="text-3xl font-semibold text-center mb-8">Create your account</h3>
+      <input id="create-name" type="text" placeholder="Full name" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+      <input id="create-email" type="email" placeholder="Email address" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+      <input id="create-password" type="password" placeholder="Password" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-8">
+      <button onclick="fakeCreateAccount()" class="w-full bg-amber-400 text-zinc-950 py-4 rounded-3xl font-semibold">Create account</button>
+      <p onclick="hideCreateAccountModal()" class="text-center mt-6 text-zinc-400 cursor-pointer hover:text-white">Cancel</p>
+    </div>
+  </div>
+
+  <script>
+    const stylists = [
+      { slug: "john-cuts", name: "John Cuts", title: "Master Barber", location: "Houston, TX", rating: "4.98", emoji: "✂️", accent: "amber" },
+      { slug: "luna-nails", name: "Luna Nails", title: "Nail Artist", location: "Houston, TX", rating: "5.0", emoji: "💅", accent: "pink" },
+      { slug: "alex-rivera", name: "Alex Rivera", title: "Barber & Stylist", location: "Houston, TX", rating: "4.95", emoji: "🪒", accent: "cyan" },
+      { slug: "sophia-salon", name: "Sophia Salon", title: "Salon Owner", location: "Houston, TX", rating: "4.9", emoji: "💇‍♀️", accent: "violet" }
+    ];
+
+    function renderFeatured() {
+      const grid = document.getElementById('featured-grid');
+      grid.innerHTML = stylists.map(s => `
+        <a href="providers/${s.slug}.html" class="card group block bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+          <div class="h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-8xl transition-all group-hover:scale-110">
+            ${s.emoji}
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl font-semibold mb-1">${s.name}</h3>
+            <p class="text-zinc-400">${s.title}</p>
+            <div class="flex justify-between items-center mt-6 pt-6 border-t border-zinc-800">
+              <span class="text-sm text-zinc-500">${s.location}</span>
+              <span class="text-emerald-400 font-medium">${s.rating} ★</span>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function performSearch() {
+      const q = document.getElementById('search-input').value.toLowerCase().trim();
+      if (!q) return alert("Try searching for a name like 'john cuts'");
+      const match = stylists.find(s => s.name.toLowerCase().includes(q));
+      if (match) window.location.href = `providers/${match.slug}.html`;
+      else alert("No exact match found in this demo. Try 'john cuts' or browse featured.");
+    }
+
+    function fakeLogin() { 
+      localStorage.setItem('kallosLoggedIn', 'true'); 
+      hideLoginModal(); 
+      alert("✅ Logged in! Site remembers your session."); 
+    }
+    function fakeCreateAccount() { 
+      localStorage.setItem('kallosLoggedIn', 'true'); 
+      hideCreateAccountModal(); 
+      alert("🎉 Account created! You can now create your own stylist page (demo coming)."); 
+    }
+
+    function showLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+    function hideLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+    function showCreateAccountModal() { document.getElementById('create-account-modal').classList.remove('hidden'); }
+    function hideCreateAccountModal() { document.getElementById('create-account-modal').classList.add('hidden'); }
+
+    window.onload = () => {
+      renderFeatured();
+      if (localStorage.getItem('kallosLoggedIn') === 'true') console.log('%cWelcome back to Kallos Style', 'color:#facc15');
+    };
+  </script>
+</body>
+</html>
