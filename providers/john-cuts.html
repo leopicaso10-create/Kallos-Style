@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>John Cuts • Kallos Style</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    body { font-family: 'Inter', system_ui, sans-serif; }
+    .logo-font { font-family: 'Playfair Display', sans-serif; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+
+  <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3 text-xl font-medium">
+        <img src="../logo.png" alt="Kallos" class="h-9">
+        <span class="logo-font neon-accent">Kallos</span>
+      </a>
+      <a href="../index.html" class="flex items-center gap-2 text-zinc-400 hover:text-white">
+        ← Back to discovery
+      </a>
+    </div>
+  </nav>
+
+  <header class="pt-16 pb-12 border-b border-zinc-800">
+    <div class="max-w-screen-2xl mx-auto px-8 flex flex-col lg:flex-row gap-12 items-start">
+      <div class="flex-1">
+        <div class="flex items-center gap-6 mb-8">
+          <div class="text-8xl">✂️</div>
+          <div>
+            <h1 class="text-6xl font-bold logo-font tracking-tighter neon-accent">John Cuts</h1>
+            <p class="text-3xl text-zinc-400">Master Barber • Houston, TX</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-8 text-lg">
+          <div class="flex items-center gap-2"><span class="text-emerald-400">4.98 ★</span> <span class="text-zinc-500">(214 reviews)</span></div>
+          <div>127 bookings this month</div>
+        </div>
+        <p class="mt-8 max-w-lg text-zinc-300 text-lg leading-relaxed">
+          Specializing in sharp fades, classic cuts, and beard grooming. My goal is simple — leave every client feeling confident and looking sharp.
+        </p>
+      </div>
+
+      <!-- Book Now Sidebar -->
+      <div class="lg:w-96 bg-zinc-900 border border-amber-400/20 rounded-3xl p-8 sticky top-8">
+        <h3 class="text-3xl font-semibold mb-2">Book with John</h3>
+        <p class="text-zinc-400 mb-8">Select a service and available time</p>
+
+        <div class="space-y-6">
+          <div onclick="selectService(this)" class="service-option p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl cursor-pointer border border-transparent hover:border-amber-400 transition">
+            <div class="flex justify-between">
+              <div>
+                <p class="font-medium">Signature Fade + Beard</p>
+                <p class="text-sm text-zinc-500">60 min</p>
+              </div>
+              <p class="font-semibold text-amber-400">$45</p>
+            </div>
+          </div>
+
+          <div onclick="selectService(this)" class="service-option p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl cursor-pointer border border-transparent hover:border-amber-400 transition">
+            <div class="flex justify-between">
+              <div>
+                <p class="font-medium">Haircut + Style</p>
+                <p class="text-sm text-zinc-500">45 min</p>
+              </div>
+              <p class="font-semibold text-amber-400">$35</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="time-slots" class="grid grid-cols-3 gap-3 my-10"></div>
+
+        <button onclick="showBookingModal()" 
+                class="w-full py-5 bg-amber-400 text-zinc-950 font-semibold rounded-3xl text-lg">Continue to book</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="hidden fixed inset-0 bg-black/80 z-[200] flex items-center justify-center">
+    <div class="bg-zinc-900 rounded-3xl p-10 max-w-md w-full">
+      <h2 class="text-3xl font-semibold mb-8">Confirm appointment</h2>
+      <form onsubmit="handleBooking(event)">
+        <input id="client-name" type="text" placeholder="Your full name" required class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+        <input id="client-email" type="email" placeholder="Email" required class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+        <input id="client-phone" type="tel" placeholder="Phone number" required class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-8">
+        <button type="submit" class="w-full py-5 bg-emerald-400 text-zinc-950 font-semibold rounded-3xl">Book & send confirmation</button>
+      </form>
+      <p onclick="hideBookingModal()" class="text-center text-zinc-400 mt-6 cursor-pointer">Cancel</p>
+    </div>
+  </div>
+
+  <script>
+    let selectedService = "";
+    let selectedTime = "";
+
+    function selectService(el) {
+      document.querySelectorAll('.service-option').forEach(e => e.classList.remove('border-amber-400'));
+      el.classList.add('border-amber-400');
+      selectedService = el.querySelector('p').textContent;
+    }
+
+    function generateTimeSlots() {
+      const slots = ['9:00 AM', '10:30 AM', '12:00 PM', '2:00 PM', '4:00 PM'];
+      document.getElementById('time-slots').innerHTML = slots.map(t => `
+        <button onclick="selectTime('${t}')" class="py-4 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 rounded-2xl text-sm font-medium transition">${t}</button>
+      `).join('');
+    }
+
+    function selectTime(time) {
+      selectedTime = time;
+      alert(`Selected: ${time}\nClick "Continue to book" to proceed.`);
+    }
+
+    function showBookingModal() {
+      if (!selectedTime) return alert("Please select a time slot first.");
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+
+    function hideBookingModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function handleBooking(e) {
+      e.preventDefault();
+      hideBookingModal();
+      const name = document.getElementById('client-name').value || "Client";
+      alert(`✅ Booking confirmed!\n\n${selectedService} with John Cuts at ${selectedTime}\nConfirmation sent to John's email & phone + your contact info.\nThank you, ${name}!`);
+    }
+
+    window.onload = generateTimeSlots;
+  </script>
+</body>
+</html>
