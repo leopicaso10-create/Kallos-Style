@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard • Kallos Style</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    body { font-family: 'Inter', system_ui, sans-serif; }
+    .logo-font { font-family: 'Playfair Display', sans-serif; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+
+  <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-4">
+        <img src="logo.png" alt="Kallos Style" class="h-11 w-auto">
+        <span class="logo-font text-3xl font-bold tracking-tight neon-accent">Kallos</span>
+      </a>
+      <a href="index.html" class="flex items-center gap-2 text-zinc-400 hover:text-white">
+        ← Back to home
+      </a>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-2xl mx-auto px-8 py-12">
+    <h1 class="text-5xl font-bold logo-font tracking-tight mb-2">My Dashboard</h1>
+    <p class="text-zinc-400">Welcome back! Manage your profile or view bookings.</p>
+
+    <div class="grid md:grid-cols-2 gap-10 mt-12">
+      <!-- Provider / Edit Page Section -->
+      <div class="bg-zinc-900 rounded-3xl p-10">
+        <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
+          <i class="fa-solid fa-scissors"></i> My Stylist Page (John Cuts)
+        </h2>
+        <div class="space-y-8">
+          <div>
+            <label class="block text-sm text-zinc-400 mb-2">Bio</label>
+            <textarea class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 h-32" placeholder="Specializing in sharp fades...">Born and raised in Houston. Obsessed with clean lines and fresh fades.</textarea>
+          </div>
+          <div>
+            <label class="block text-sm text-zinc-400 mb-2">Services</label>
+            <div class="space-y-3">
+              <input type="text" value="Signature Fade + Beard - $45" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4">
+              <input type="text" value="Haircut + Style - $35" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4">
+            </div>
+          </div>
+          <button onclick="alert('Changes saved! (In real version this would update your public page)')" 
+                  class="w-full bg-amber-400 text-zinc-950 py-5 rounded-3xl font-semibold">Save Changes to My Page</button>
+        </div>
+      </div>
+
+      <!-- My Bookings (Client view) -->
+      <div class="bg-zinc-900 rounded-3xl p-10">
+        <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
+          <i class="fa-solid fa-calendar-check"></i> My Bookings
+        </h2>
+        <div class="bg-zinc-800 rounded-2xl p-6 mb-4">
+          <p class="font-medium">Signature Fade with John Cuts</p>
+          <p class="text-sm text-zinc-400">Tomorrow at 10:30 AM • Confirmed</p>
+        </div>
+        <div class="text-zinc-400 text-sm">No other upcoming bookings.</div>
+        <button onclick="alert('In full version this would show all past & upcoming bookings with real data.')" 
+                class="mt-8 w-full border border-zinc-700 py-5 rounded-3xl">View all bookings</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto redirect if not logged in
+    if (localStorage.getItem('kallosLoggedIn') !== 'true') {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
